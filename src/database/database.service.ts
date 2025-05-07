@@ -1,8 +1,7 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { EConfig } from '@otus-social/types/config-service';
 import { Pool } from 'pg';
-
-import { EConfig } from "@otus-social/types/config-service";
 
 @Injectable()
 export class DatabaseService implements OnModuleInit, OnModuleDestroy {
@@ -18,7 +17,7 @@ export class DatabaseService implements OnModuleInit, OnModuleDestroy {
     });
   }
 
-  public async onModuleInit() {
+  public async onModuleInit(): Promise<void> {
     await this.pool.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -31,11 +30,11 @@ export class DatabaseService implements OnModuleInit, OnModuleDestroy {
     `);
   }
 
-  public async onModuleDestroy() {
+  public async onModuleDestroy(): Promise<void> {
     await this.pool.end();
   }
 
   public getPool(): Pool {
     return this.pool;
   }
-} 
+}

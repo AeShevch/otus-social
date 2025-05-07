@@ -1,4 +1,7 @@
-import type { IUser, IUserWithoutPassword } from "@otus-social/users/interfaces/user.interface";
+import type {
+  IUser,
+  IUserWithoutPassword,
+} from '@otus-social/users/interfaces/user.interface';
 
 export class UserModel implements IUser {
   public id: number;
@@ -19,12 +22,16 @@ export class UserModel implements IUser {
       email: dbUser.email,
       password: dbUser.password,
       created_at: dbUser.created_at,
-      updated_at: dbUser.updated_at
+      updated_at: dbUser.updated_at,
     });
   }
-
   public toResponse(): IUserWithoutPassword {
-    const { password, ...userResponse } = this;
-    return userResponse;
+    return {
+      id: this.id,
+      username: this.username,
+      email: this.email,
+      created_at: this.created_at,
+      updated_at: this.updated_at,
+    };
   }
-} 
+}

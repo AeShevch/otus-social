@@ -19,8 +19,13 @@ export default tseslint.config(
       'import/resolver': {
         typescript: {
           project: './tsconfig.json',
+          alwaysTryTypes: true,
+          extensions: ['.ts', '.tsx', '.js', '.jsx']
         },
-        node: true,
+        node: {
+          extensions: ['.js', '.jsx', '.ts', '.tsx'],
+          paths: ['src']
+        }
       },
     },
     extends: [
@@ -42,6 +47,10 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-floating-promises': 'warn',
       '@typescript-eslint/no-unsafe-argument': 'warn',
+      '@typescript-eslint/no-empty-object-type': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/consistent-type-imports': [
         'error',
         {
@@ -62,10 +71,29 @@ export default tseslint.config(
           format: ['PascalCase'],
           prefix: ['T'],
         },
+        {
+          selector: 'enum',
+          format: ['PascalCase'],
+          prefix: ['E'],
+        },
       ],
       '@typescript-eslint/explicit-module-boundary-types': 'error',
+      '@typescript-eslint/explicit-member-accessibility': ['error', { overrides: { constructors: 'no-public' } }],
       'import/named': 'off',
       'import/newline-after-import': 'error',
+      'import/no-relative-parent-imports': 'off',
+      'import/no-relative-packages': 'error',
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['../*', './*'],
+              message: 'Use imports with @otus-social alias instead of relative imports',
+            },
+          ],
+        },
+      ],
       'import/order': [
         'error',
         {

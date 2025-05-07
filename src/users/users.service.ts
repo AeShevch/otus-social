@@ -29,7 +29,7 @@ export class UsersService {
 
     if (existingUser) {
       throw new ConflictException(
-        'Пользователь с таким именем или email уже существует',
+        'User with this username or email already exists',
       );
     }
 

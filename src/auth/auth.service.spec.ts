@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 
-import { AuthService } from './auth.service';
+import { AuthService } from '@otus-social/auth/auth.service';
 
 import type { TestingModule } from '@nestjs/testing';
 

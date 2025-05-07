@@ -1,7 +1,7 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class LoginResponseDto {
   @IsString()
   @IsNotEmpty()
-  access_token: string;
+  public access_token: string;
 }

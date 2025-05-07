@@ -1,5 +1,3 @@
-import { ConfigService as NestConfigService } from '@nestjs/config';
-
 export enum EConfig {
   // Database
   DATABASE_HOST = 'DATABASE_HOST',
@@ -7,13 +5,13 @@ export enum EConfig {
   DATABASE_USER = 'DATABASE_USER',
   DATABASE_PASSWORD = 'DATABASE_PASSWORD',
   DATABASE_NAME = 'DATABASE_NAME',
-  
+
   // JWT
   JWT_SECRET = 'JWT_SECRET',
   JWT_EXPIRES_IN = 'JWT_EXPIRES_IN',
 }
 
-type ConfigKeyTypeMap = {
+type TConfigKeyTypeMap = {
   [EConfig.DATABASE_HOST]: string;
   [EConfig.DATABASE_PORT]: number;
   [EConfig.DATABASE_USER]: string;
@@ -24,8 +22,12 @@ type ConfigKeyTypeMap = {
 };
 
 declare module '@nestjs/config' {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   interface ConfigService {
-    get<K extends EConfig>(key: K): ConfigKeyTypeMap[K];
-    get<K extends EConfig, D>(key: K, defaultValue: D): ConfigKeyTypeMap[K] | D;
+    get<K extends EConfig>(key: K): TConfigKeyTypeMap[K];
+    get<K extends EConfig, D>(
+      key: K,
+      defaultValue: D,
+    ): TConfigKeyTypeMap[K] | D;
   }
-} 
+}

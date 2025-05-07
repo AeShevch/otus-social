@@ -1,13 +1,13 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import { EConfig } from '@otus-social/types/config-service';
 import * as bcrypt from 'bcrypt';
 
-import { UsersService } from '@otus-social/users/users.service';
-import { CreateUserDto } from '@otus-social/users/dto/create-user.dto';
 import type { IJwtResponse } from '@otus-social/auth/interfaces/auth-service.interface';
+import { CreateUserDto } from '@otus-social/users/dto/create-user.dto';
 import type { IUserWithoutPassword } from '@otus-social/users/interfaces/user.interface';
-import { EConfig } from '@otus-social/types/config-service';
+import { UsersService } from '@otus-social/users/users.service';
 
 @Injectable()
 export class AuthService {
@@ -17,15 +17,18 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  public async validateUser(username: string, password: string): Promise<IUserWithoutPassword | null> {
+  public async validateUser(
+    username: string,
+    password: string,
+  ): Promise<IUserWithoutPassword | null> {
     const user = await this.usersService.findByUsername(username);
-    
+
     if (!user || !user.password) {
       return null;
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    
+
     if (!isPasswordValid) {
       return null;
     }
@@ -33,17 +36,22 @@ export class AuthService {
     return user.toResponse();
   }
 
-  public async login(username: string, password: string): Promise<IJwtResponse> {
+  public async login(
+    username: string,
+    password: string,
+  ): Promise<IJwtResponse> {
     const user = await this.validateUser(username, password);
-    
+
     if (!user) {
-      throw new UnauthorizedException('Неверные учетные данные');
+      throw new UnauthorizedException('Invalid credentials');
     }
 
     return this.generateJwt(user);
   }
 
-  public async register(createUserDto: CreateUserDto): Promise<IUserWithoutPassword> {
+  public async register(
+    createUserDto: CreateUserDto,
+  ): Promise<IUserWithoutPassword> {
     const user = await this.usersService.create(createUserDto);
     return user.toResponse();
   }

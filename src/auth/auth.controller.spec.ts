@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 
-import { AuthController } from './auth.controller';
+import { AuthController } from '@otus-social/auth/auth.controller';
 
 import type { TestingModule } from '@nestjs/testing';
 

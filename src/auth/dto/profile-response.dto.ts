@@ -3,9 +3,9 @@ import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 export class ProfileResponseDto {
   @IsNumber()
   @IsNotEmpty()
-  userId: number;
+  public userId: number;
 
   @IsString()
   @IsNotEmpty()
-  username: string;
+  public username: string;
 }

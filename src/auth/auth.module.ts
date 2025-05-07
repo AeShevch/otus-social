@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { EConfig } from '@otus-social/types/config-service';
 
 import { AuthController } from '@otus-social/auth/auth.controller';
 import { AuthService } from '@otus-social/auth/auth.service';
 import { JwtStrategy } from '@otus-social/auth/jwt.strategy';
 import { UsersModule } from '@otus-social/users/users.module';
-import { EConfig } from '@otus-social/types/config-service';
 
 @Module({
   imports: [
@@ -19,8 +19,8 @@ import { EConfig } from '@otus-social/types/config-service';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         secret: configService.get(EConfig.JWT_SECRET),
-        signOptions: { 
-          expiresIn: configService.get(EConfig.JWT_EXPIRES_IN) 
+        signOptions: {
+          expiresIn: configService.get(EConfig.JWT_EXPIRES_IN),
         },
       }),
     }),
