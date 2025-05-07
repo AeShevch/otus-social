@@ -1,7 +1,7 @@
 import { Injectable, ConflictException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
-import { CreateUserDto } from '@otus-social/users/dto/create-user.dto';
+import type { IRegisterData } from '@otus-social/auth/interfaces/register-data.interface';
 import { UserModel } from '@otus-social/users/models/user.model';
 import { UserRepository } from '@otus-social/users/repositories/user.repository';
 
@@ -21,10 +21,10 @@ export class UsersService {
     return this.userRepository.findByEmail(email);
   }
 
-  public async create(createUserDto: CreateUserDto): Promise<UserModel> {
+  public async create(registerData: IRegisterData): Promise<UserModel> {
     const existingUser = await Promise.any([
-      this.findByUsername(createUserDto.username),
-      this.findByEmail(createUserDto.email),
+      this.findByUsername(registerData.username),
+      this.findByEmail(registerData.email),
     ]);
 
     if (existingUser) {
@@ -33,11 +33,11 @@ export class UsersService {
       );
     }
 
-    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+    const hashedPassword = await bcrypt.hash(registerData.password, 10);
 
     return this.userRepository.create(
-      createUserDto.username,
-      createUserDto.email,
+      registerData.username,
+      registerData.email,
       hashedPassword,
     );
   }

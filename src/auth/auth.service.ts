@@ -5,7 +5,8 @@ import { EConfig } from '@otus-social/types/config-service';
 import * as bcrypt from 'bcrypt';
 
 import type { IJwtResponse } from '@otus-social/auth/interfaces/auth-service.interface';
-import { CreateUserDto } from '@otus-social/users/dto/create-user.dto';
+import type { IRegisterResponse } from '@otus-social/auth/interfaces/register-data.interface';
+import type { IRegisterData } from '@otus-social/auth/interfaces/register-data.interface';
 import type { IUserWithoutPassword } from '@otus-social/users/interfaces/user.interface';
 import { UsersService } from '@otus-social/users/users.service';
 
@@ -50,10 +51,22 @@ export class AuthService {
   }
 
   public async register(
-    createUserDto: CreateUserDto,
-  ): Promise<IUserWithoutPassword> {
-    const user = await this.usersService.create(createUserDto);
-    return user.toResponse();
+    registerData: IRegisterData,
+  ): Promise<IRegisterResponse> {
+    const userModel = await this.usersService.create(registerData);
+    const user = userModel.toResponse();
+
+    return this.mapToRegisterResponse(user);
+  }
+
+  private mapToRegisterResponse(user: IUserWithoutPassword): IRegisterResponse {
+    return {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      created_at: user.created_at,
+      updated_at: user.updated_at,
+    };
   }
 
   private generateJwt(user: IUserWithoutPassword): IJwtResponse {

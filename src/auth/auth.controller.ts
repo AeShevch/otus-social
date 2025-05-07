@@ -14,10 +14,10 @@ import {
   LoginRequestDto,
   LoginResponseDto,
   ProfileResponseDto,
+  RegisterRequestDto,
+  RegisterResponseDto,
 } from '@otus-social/auth/dto';
 import type { IValidatedPayload } from '@otus-social/auth/interfaces/jwt-strategy.interface';
-import { CreateUserDto } from '@otus-social/users/dto/create-user.dto';
-import type { IUserWithoutPassword } from '@otus-social/users/interfaces/user.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -25,9 +25,9 @@ export class AuthController {
 
   @Post('register')
   public async register(
-    @Body() createUserDto: CreateUserDto,
-  ): Promise<IUserWithoutPassword> {
-    return this.authService.register(createUserDto);
+    @Body() registerDto: RegisterRequestDto,
+  ): Promise<RegisterResponseDto> {
+    return this.authService.register(registerDto);
   }
 
   @Post('login')
