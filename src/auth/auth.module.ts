@@ -1,9 +1,32 @@
 import { Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+
 import { AuthController } from '@otus-social/auth/auth.controller';
 import { AuthService } from '@otus-social/auth/auth.service';
+import { JwtStrategy } from '@otus-social/auth/jwt.strategy';
+import { UsersModule } from '@otus-social/users/users.module';
+import { EConfig } from '@otus-social/types/config-service';
 
 @Module({
+  imports: [
+    ConfigModule,
+    PassportModule,
+    UsersModule,
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get(EConfig.JWT_SECRET),
+        signOptions: { 
+          expiresIn: configService.get(EConfig.JWT_EXPIRES_IN) 
+        },
+      }),
+    }),
+  ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, JwtStrategy],
+  exports: [AuthService, JwtModule],
 })
 export class AuthModule {}

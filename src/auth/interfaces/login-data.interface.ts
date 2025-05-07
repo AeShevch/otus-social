@@ -1,10 +1,8 @@
-import type { TUserId } from '@otus-social/auth/types/user-id.type';
-
 export interface ILoginData {
-  id: TUserId;
+  username: string;
   password: string;
 }
 
 export interface ILoginResponse {
-  token: string;
+  access_token: string;
 }

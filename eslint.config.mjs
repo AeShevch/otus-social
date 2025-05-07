@@ -2,6 +2,7 @@ import eslint from '@eslint/js';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
+import importPlugin from 'eslint-plugin-import';
 
 export default tseslint.config(
   {
@@ -10,7 +11,21 @@ export default tseslint.config(
   eslint.configs.recommended,
   {
     files: ['**/*.{ts,tsx}'],
-    extends: [...tseslint.configs.recommendedTypeChecked],
+    plugins: {
+      '@typescript-eslint': tseslint.plugin,
+      import: importPlugin,
+    },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          project: './tsconfig.json',
+        },
+        node: true,
+      },
+    },
+    extends: [
+      ...tseslint.configs.recommendedTypeChecked,
+    ],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
@@ -22,9 +37,6 @@ export default tseslint.config(
       globals: {
         ...globals.node,
       },
-    },
-    plugins: {
-      '@typescript-eslint': tseslint.plugin,
     },
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
@@ -49,6 +61,36 @@ export default tseslint.config(
           selector: 'typeAlias',
           format: ['PascalCase'],
           prefix: ['T'],
+        },
+      ],
+      '@typescript-eslint/explicit-module-boundary-types': 'error',
+      'import/named': 'off',
+      'import/newline-after-import': 'error',
+      'import/order': [
+        'error',
+        {
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            'sibling',
+            'index',
+            'object',
+            'type',
+          ],
+          pathGroups: [
+            {
+              pattern: '@otus-social/**',
+              group: 'internal',
+              position: 'after',
+            },
+          ],
+          pathGroupsExcludedImportTypes: ['builtin', 'external'],
+          'newlines-between': 'always',
+          alphabetize: {
+            order: 'asc',
+            caseInsensitive: true,
+          },
         },
       ],
     },

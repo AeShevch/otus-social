@@ -1,2 +1,3 @@
-export * from './login-request.dto';
-export * from './login-response.dto';
+export * from '@otus-social/auth/dto/login-request.dto';
+export * from '@otus-social/auth/dto/login-response.dto';
+export * from '@otus-social/auth/dto/profile-response.dto';

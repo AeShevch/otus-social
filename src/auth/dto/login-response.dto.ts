@@ -1,8 +1,7 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-import type { ILoginResponse } from '@otus-social/auth/interfaces/login-data.interface';
+import { IsNotEmpty, IsString } from "class-validator";
 
-export class LoginResponseDto implements ILoginResponse {
-  @IsNotEmpty()
+export class LoginResponseDto {
   @IsString()
-  token: string;
+  @IsNotEmpty()
+  access_token: string;
 }
