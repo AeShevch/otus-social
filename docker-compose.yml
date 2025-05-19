@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: otus-social-postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${DATABASE_USER:-postgres}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-postgres}
+      POSTGRES_DB: ${DATABASE_NAME:-otus_social}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - otus-social-network
+
+volumes:
+  postgres_data:
+
+networks:
+  otus-social-network:
+    driver: bridge 

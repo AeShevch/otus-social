@@ -7,8 +7,19 @@
     "webpack": true,
     "tsConfigPath": "tsconfig.json",
     "watchOptions": {
-      "ignored": "**/node_modules/**",
-      "poll": 1000
-    }
+      "ignored": [
+        "**/node_modules/**",
+        "**/dist/**",
+        "**/.git/**",
+        "**/coverage/**",
+        "**/*.log"
+      ]
+    },
+    "assets": [
+      {
+        "include": "database/sql/queries/**/*.sql",
+        "outDir": "dist/"
+      }
+    ]
   }
 }
