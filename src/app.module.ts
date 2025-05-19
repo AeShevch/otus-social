@@ -7,9 +7,7 @@ import { UsersModule } from '@otus-social/users/users.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
+    ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
     UsersModule,
     AuthModule,

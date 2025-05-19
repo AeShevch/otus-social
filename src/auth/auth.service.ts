@@ -1,12 +1,12 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { EConfig } from '@otus-social/types/config-service';
 import * as bcrypt from 'bcrypt';
 
 import type { IJwtResponse } from '@otus-social/auth/interfaces/auth-service.interface';
 import type { IRegisterResponse } from '@otus-social/auth/interfaces/register-data.interface';
 import type { IRegisterData } from '@otus-social/auth/interfaces/register-data.interface';
+import { EConfig } from '@otus-social/config/types';
 import type { IUserWithoutPassword } from '@otus-social/users/interfaces/user.interface';
 import { UsersService } from '@otus-social/users/users.service';
 

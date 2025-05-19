@@ -1,7 +1,8 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { EConfig } from '@otus-social/types/config-service';
 import { Pool } from 'pg';
+
+import { EConfig } from '@otus-social/config/types';
 
 @Injectable()
 export class DatabaseService implements OnModuleInit, OnModuleDestroy {

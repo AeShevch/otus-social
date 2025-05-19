@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
-import { EConfig } from '@otus-social/types/config-service';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
 import type {
   IJwtPayload,
   IValidatedPayload,
 } from '@otus-social/auth/interfaces/jwt-strategy.interface';
+import { EConfig } from '@otus-social/config/types';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

@@ -1,15 +1,4 @@
-export enum EConfig {
-  // Database
-  DATABASE_HOST = 'DATABASE_HOST',
-  DATABASE_PORT = 'DATABASE_PORT',
-  DATABASE_USER = 'DATABASE_USER',
-  DATABASE_PASSWORD = 'DATABASE_PASSWORD',
-  DATABASE_NAME = 'DATABASE_NAME',
-
-  // JWT
-  JWT_SECRET = 'JWT_SECRET',
-  JWT_EXPIRES_IN = 'JWT_EXPIRES_IN',
-}
+import type { EConfig } from '@otus-social/config/types';
 
 type TConfigKeyTypeMap = {
   [EConfig.DATABASE_HOST]: string;
