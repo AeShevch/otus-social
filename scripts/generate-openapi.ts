@@ -15,6 +15,7 @@ async function generateOpenApi() {
       .setDescription('API Documentation for Social Network')
       .setVersion('1.0')
       .addBearerAuth()
+      .addServer('http://localhost:3000')
       .build();
 
     const document = SwaggerModule.createDocument(app, config);

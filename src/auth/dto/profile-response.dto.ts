@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsDate,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 import type { IProfile } from '@otus-social/auth/interfaces/profile.interface';
 
@@ -19,4 +26,52 @@ export class ProfileResponseDto implements IProfile {
   @IsString()
   @IsNotEmpty()
   public username: string;
+
+  @ApiProperty({
+    description: 'First name',
+    example: 'John',
+  })
+  @IsString()
+  @IsOptional()
+  public firstName?: string;
+
+  @ApiProperty({
+    description: 'Last name',
+    example: 'Doe',
+  })
+  @IsString()
+  @IsOptional()
+  public lastName?: string;
+
+  @ApiProperty({
+    description: 'Birth date',
+    example: '1990-01-01',
+  })
+  @IsDate()
+  @IsOptional()
+  public birthDate?: Date;
+
+  @ApiProperty({
+    description: 'Gender',
+    example: 'male',
+  })
+  @IsString()
+  @IsOptional()
+  public gender?: string;
+
+  @ApiProperty({
+    description: 'Interests',
+    example: ['music', 'travel', 'reading'],
+  })
+  @IsArray()
+  @IsString({ each: true })
+  public interests?: string[];
+
+  @ApiProperty({
+    description: 'City',
+    example: 'Saint Petersburg',
+  })
+  @IsString()
+  @IsOptional()
+  public city?: string;
 }

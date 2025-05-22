@@ -1,6 +1,45 @@
 {
   "openapi": "3.0.0",
   "paths": {
+    "/users/{userId}": {
+      "get": {
+        "operationId": "UsersController_getProfile",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get user profile",
+        "tags": [
+          "Users"
+        ]
+      }
+    },
     "/auth/register": {
       "post": {
         "operationId": "AuthController_register",
@@ -70,36 +109,6 @@
           "Authentication"
         ]
       }
-    },
-    "/auth/profile": {
-      "get": {
-        "operationId": "AuthController_getProfile",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "User profile",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProfileResponseDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Get user profile",
-        "tags": [
-          "Authentication"
-        ]
-      }
     }
   },
   "info": {
@@ -109,7 +118,11 @@
     "contact": {}
   },
   "tags": [],
-  "servers": [],
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
   "components": {
     "securitySchemes": {
       "bearer": {
@@ -119,6 +132,69 @@
       }
     },
     "schemas": {
+      "ProfileResponseDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "number",
+            "description": "User ID",
+            "example": 1
+          },
+          "username": {
+            "type": "string",
+            "description": "Username",
+            "example": "john_doe"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "First name",
+            "example": "John"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Last name",
+            "example": "Doe"
+          },
+          "birthDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Birth date",
+            "example": "1990-01-01"
+          },
+          "gender": {
+            "type": "string",
+            "description": "Gender",
+            "example": "male"
+          },
+          "interests": {
+            "description": "Interests",
+            "example": [
+              "music",
+              "travel",
+              "reading"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "city": {
+            "type": "string",
+            "description": "City",
+            "example": "Saint Petersburg"
+          }
+        },
+        "required": [
+          "userId",
+          "username",
+          "firstName",
+          "lastName",
+          "birthDate",
+          "gender",
+          "interests",
+          "city"
+        ]
+      },
       "RegisterRequestDto": {
         "type": "object",
         "properties": {
@@ -137,12 +213,55 @@
             "description": "Password (minimum 6 characters)",
             "example": "password123",
             "minLength": 6
+          },
+          "firstName": {
+            "type": "string",
+            "description": "First name",
+            "example": "John"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Last name",
+            "example": "Doe"
+          },
+          "birthDate": {
+            "type": "string",
+            "description": "Birth date",
+            "example": "1990-01-01"
+          },
+          "gender": {
+            "type": "string",
+            "description": "Gender",
+            "example": "male"
+          },
+          "interests": {
+            "description": "Interests",
+            "example": [
+              "music",
+              "travel",
+              "reading"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "city": {
+            "type": "string",
+            "description": "City",
+            "example": "Saint Petersburg"
           }
         },
         "required": [
           "username",
           "email",
-          "password"
+          "password",
+          "firstName",
+          "lastName",
+          "birthDate",
+          "gender",
+          "interests",
+          "city"
         ]
       },
       "RegisterResponseDto": {
@@ -210,29 +329,16 @@
             "type": "string",
             "description": "JWT access token",
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-          }
-        },
-        "required": [
-          "access_token"
-        ]
-      },
-      "ProfileResponseDto": {
-        "type": "object",
-        "properties": {
-          "userId": {
+          },
+          "user_id": {
             "type": "number",
             "description": "User ID",
             "example": 1
-          },
-          "username": {
-            "type": "string",
-            "description": "Username",
-            "example": "john_doe"
           }
         },
         "required": [
-          "userId",
-          "username"
+          "access_token",
+          "user_id"
         ]
       }
     }

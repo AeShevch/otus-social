@@ -20,6 +20,7 @@ const SQL_DIR = getSqlDir();
 
 export function loadSqlFile(fileName: string): string {
   const filePath = join(SQL_DIR, fileName);
+
   try {
     return readFileSync(filePath, 'utf-8');
   } catch {

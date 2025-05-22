@@ -2,6 +2,12 @@ export interface IRegisterData {
   username: string;
   email: string;
   password: string;
+  firstName?: string;
+  lastName?: string;
+  birthDate?: string;
+  gender?: string;
+  interests?: string[];
+  city?: string;
 }
 
 export interface IRegisterResponse {

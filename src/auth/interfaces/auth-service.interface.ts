@@ -4,5 +4,6 @@ export interface IValidatedUser {
 }
 
 export interface IJwtResponse {
+  user_id: number;
   access_token: string;
 }

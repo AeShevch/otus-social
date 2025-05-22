@@ -1,29 +1,14 @@
-import {
-  Body,
-  Controller,
-  Post,
-  UseGuards,
-  Request,
-  Get,
-  UnauthorizedException,
-} from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiBearerAuth,
-} from '@nestjs/swagger';
+import { Body, Controller, Post } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { plainToInstance } from 'class-transformer';
 
 import { AuthService } from '@otus-social/auth/auth.service';
 import {
   LoginRequestDto,
   LoginResponseDto,
-  ProfileResponseDto,
   RegisterRequestDto,
   RegisterResponseDto,
 } from '@otus-social/auth/dto';
-import type { IValidatedPayload } from '@otus-social/auth/interfaces/jwt-strategy.interface';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -44,7 +29,9 @@ export class AuthController {
   public async register(
     @Body() registerDto: RegisterRequestDto,
   ): Promise<RegisterResponseDto> {
-    return this.authService.register(registerDto);
+    const registerResult = await this.authService.register(registerDto);
+
+    return plainToInstance(RegisterResponseDto, registerResult);
   }
 
   @ApiOperation({ summary: 'Login to the system' })
@@ -58,29 +45,11 @@ export class AuthController {
   public async login(
     @Body() loginDto: LoginRequestDto,
   ): Promise<LoginResponseDto> {
-    try {
-      return await this.authService.login(loginDto.username, loginDto.password);
-    } catch {
-      throw new UnauthorizedException('Invalid credentials');
-    }
-  }
+    const loginResult = await this.authService.login(
+      loginDto.username,
+      loginDto.password,
+    );
 
-  @ApiOperation({ summary: 'Get user profile' })
-  @ApiResponse({
-    status: 200,
-    description: 'User profile',
-    type: ProfileResponseDto,
-  })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'))
-  @Get('profile')
-  public getProfile(
-    @Request() req: { user: IValidatedPayload },
-  ): ProfileResponseDto {
-    return {
-      userId: req.user.userId,
-      username: req.user.username,
-    };
+    return plainToInstance(LoginResponseDto, loginResult);
   }
 }

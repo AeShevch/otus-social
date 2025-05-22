@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 import type { ILoginResponse } from '@otus-social/auth/interfaces/login-data.interface';
 
@@ -11,4 +11,12 @@ export class LoginResponseDto implements ILoginResponse {
   @IsString()
   @IsNotEmpty()
   public access_token: string;
+
+  @ApiProperty({
+    description: 'User ID',
+    example: 1,
+  })
+  @IsNumber()
+  @IsNotEmpty()
+  public user_id: number;
 }

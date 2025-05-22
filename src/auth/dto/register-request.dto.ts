@@ -1,5 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import {
+  IsArray,
+  IsDateString,
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator';
 
 import type { IRegisterData } from '@otus-social/auth/interfaces/register-data.interface';
 
@@ -29,4 +37,53 @@ export class RegisterRequestDto implements IRegisterData {
   @IsString()
   @MinLength(6)
   public password: string;
+
+  @ApiProperty({
+    description: 'First name',
+    example: 'John',
+  })
+  @IsOptional()
+  @IsString()
+  public firstName?: string;
+
+  @ApiProperty({
+    description: 'Last name',
+    example: 'Doe',
+  })
+  @IsOptional()
+  @IsString()
+  public lastName?: string;
+
+  @ApiProperty({
+    description: 'Birth date',
+    example: '1990-01-01',
+  })
+  @IsOptional()
+  @IsDateString()
+  public birthDate?: string;
+
+  @ApiProperty({
+    description: 'Gender',
+    example: 'male',
+  })
+  @IsOptional()
+  @IsString()
+  public gender?: string;
+
+  @ApiProperty({
+    description: 'Interests',
+    example: ['music', 'travel', 'reading'],
+  })
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  public interests?: string[];
+
+  @ApiProperty({
+    description: 'City',
+    example: 'Saint Petersburg',
+  })
+  @IsOptional()
+  @IsString()
+  public city?: string;
 }
