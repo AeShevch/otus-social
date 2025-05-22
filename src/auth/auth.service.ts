@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  ConflictException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -7,6 +11,7 @@ import type { IJwtResponse } from '@otus-social/auth/interfaces/auth-service.int
 import type { IRegisterResponse } from '@otus-social/auth/interfaces/register-data.interface';
 import type { IRegisterData } from '@otus-social/auth/interfaces/register-data.interface';
 import { EConfig } from '@otus-social/config/types';
+import { ProfilesService } from '@otus-social/profiles/profiles.service';
 import type { IUserWithoutPassword } from '@otus-social/users/interfaces/user.interface';
 import { UsersService } from '@otus-social/users/users.service';
 
@@ -14,6 +19,7 @@ import { UsersService } from '@otus-social/users/users.service';
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
+    private readonly profilesService: ProfilesService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {}
@@ -53,7 +59,28 @@ export class AuthService {
   public async register(
     registerData: IRegisterData,
   ): Promise<IRegisterResponse> {
-    const userModel = await this.usersService.create(registerData);
+    const { username, email, password, ...profileData } = registerData;
+
+    const existingUserByUsername =
+      await this.usersService.findByUsername(username);
+    if (existingUserByUsername) {
+      throw new ConflictException('User with this username already exists');
+    }
+
+    const existingUserByEmail = await this.usersService.findByEmail(email);
+    if (existingUserByEmail) {
+      throw new ConflictException('User with this email already exists');
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const userModel = await this.usersService.create(
+      { username, email },
+      hashedPassword,
+    );
+
+    await this.profilesService.createProfile(userModel.id, profileData);
+
     const user = userModel.toResponse();
 
     return this.mapToRegisterResponse(user);

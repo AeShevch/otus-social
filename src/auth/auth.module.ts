@@ -8,12 +8,14 @@ import { AuthService } from '@otus-social/auth/auth.service';
 import { JwtStrategy } from '@otus-social/auth/jwt.strategy';
 import { EConfig } from '@otus-social/config/types';
 import { UsersModule } from '@otus-social/users/users.module';
+import { ProfilesModule } from '@otus-social/profiles/profiles.module';
 
 @Module({
   imports: [
     ConfigModule,
     PassportModule,
     UsersModule,
+    ProfilesModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

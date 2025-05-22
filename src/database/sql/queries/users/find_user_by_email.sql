@@ -3,12 +3,6 @@ SELECT id,
     email,
     password,
     created_at,
-    updated_at,
-    first_name,
-    last_name,
-    birth_date,
-    gender,
-    interests,
-    city
+    updated_at
 FROM users
-WHERE email = $1
+WHERE email = $1;

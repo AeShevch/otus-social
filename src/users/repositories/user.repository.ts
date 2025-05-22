@@ -47,7 +47,7 @@ export class UserRepository {
   }
 
   public async create(
-    userData: IRegisterData,
+    userData: Pick<IRegisterData, 'username' | 'email'>,
     hashedPassword: string,
   ): Promise<UserModel> {
     const result = await this.databaseService
@@ -56,12 +56,6 @@ export class UserRepository {
         userData.username,
         userData.email,
         hashedPassword,
-        userData.firstName,
-        userData.lastName,
-        userData.birthDate,
-        userData.gender,
-        userData.interests,
-        userData.city,
       ]);
 
     return UserModel.fromDatabase(result.rows[0]);

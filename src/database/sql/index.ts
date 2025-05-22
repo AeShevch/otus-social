@@ -8,5 +8,8 @@ export const SQL = {
     findUserByEmail: loadSqlFile('users/find_user_by_email.sql'),
     findUserByUsername: loadSqlFile('users/find_user_by_username.sql'),
     findUserById: loadSqlFile('users/find_user_by_id.sql'),
+
+    createProfile: loadSqlFile('profiles/create_profile.sql'),
+    findProfileByUserId: loadSqlFile('profiles/find_profile_by_user_id.sql'),
   },
 };

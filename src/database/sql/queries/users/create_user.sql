@@ -1,23 +1,11 @@
 INSERT INTO users (
         username,
         email,
-        password,
-        first_name,
-        last_name,
-        birth_date,
-        gender,
-        interests,
-        city
+        password
     )
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+VALUES ($1, $2, $3)
 RETURNING id,
     username,
     email,
     created_at,
-    updated_at,
-    first_name,
-    last_name,
-    birth_date,
-    gender,
-    interests,
-    city
+    updated_at;
