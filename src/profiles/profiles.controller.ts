@@ -33,7 +33,7 @@ export class ProfilesController {
   @ApiResponse({ status: 404, description: 'Profile not found' })
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  @Get('user/:userId')
+  @Get(':userId')
   public async getProfileByUserId(
     @Param('userId', ParseIntPipe) userId: number,
   ): Promise<ProfileResponseDto> {
