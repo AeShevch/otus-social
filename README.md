@@ -1,74 +1,38 @@
-## Project setup
+# Social Network API
+
+## Запуск проекта
+
+### Cold Start
+
+Для первоначального запуска проекта выполните команду:
 
 ```bash
-$ pnpm install
+npm run cold-start
 ```
 
-## Compile and run the project
+Эта команда выполнит следующие действия:
+1. Установит все зависимости (`npm install`).
+2. Скопирует файл `example.env` в `.env`.
+3. Запустит docker-контейнеры (`npm run start:containers`).
+4. Запустит приложение.
 
-```bash
-# development
-$ pnpm run start
+## Доступные скрипты
 
-# watch mode
-$ pnpm run start:dev
+- `npm run build`: Сборка проекта.
+- `npm run build:openapi`: Генерация документации OpenAPI.
+- `npm run format`: Форматирование кода.
+- `npm run start`: Запуск приложения.
+- `npm run start:dev`: Запуск приложения в режиме разработки с отслеживанием изменений.
+- `npm run start:debug`: Запуск приложения в режиме отладки с отслеживанием изменений.
+- `npm run start:prod`: Запуск приложения в продакшн режиме (из папки `dist`).
+- `npm run start:containers`: Запуск docker-контейнеров.
+- `npm run lint`: Проверка кода с помощью ESLint и автоматическое исправление ошибок.
+- `npm run test`: Запуск тестов.
+- `npm run test:watch`: Запуск тестов в режиме отслеживания изменений.
+- `npm run test:cov`: Запуск тестов с генерацией отчета о покрытии.
+- `npm run test:debug`: Запуск тестов в режиме отладки.
+- `npm run test:e2e`: Запуск end-to-end тестов.
 
-# production mode
-$ pnpm run start:prod
-```
+## API Документация
 
-## Run tests
-
-```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
-```
-
-## База данных PostgreSQL
-
-Для запуска проекта с базой данных PostgreSQL в Docker:
-
-1. Создайте файл `.env` в корне проекта со следующим содержимым:
-
-```
-# PostgreSQL
-DATABASE_HOST=localhost
-DATABASE_PORT=5432
-DATABASE_USER=postgres
-DATABASE_PASSWORD=postgres
-DATABASE_NAME=otus_social
-
-# JWT
-JWT_SECRET=your_secret_key_here
-JWT_EXPIRES_IN=1d
-
-# App
-PORT=3000
-```
-
-2. Запустите PostgreSQL в Docker:
-
-```bash
-docker-compose up -d
-```
-
-3. База данных будет доступна по адресу `localhost:5432`.
-
-## Запуск приложения
-
-```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
-```
+Документация API в формате OpenAPI доступна [здесь](./openapi.json). 
