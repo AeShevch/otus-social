@@ -61,15 +61,15 @@ export class AuthService {
   ): Promise<IRegisterResponse> {
     const { username, email, password, ...profileData } = registerData;
 
-    const existingUser = await Promise.any([
-      this.usersService.findByUsername(username),
-      this.usersService.findByEmail(email),
-    ]);
+    const existingUserByUsername =
+      await this.usersService.findByUsername(username);
+    if (existingUserByUsername) {
+      throw new ConflictException('User with this username already exists');
+    }
 
-    if (existingUser) {
-      throw new ConflictException(
-        'User with this username or email already exists',
-      );
+    const existingUserByEmail = await this.usersService.findByEmail(email);
+    if (existingUserByEmail) {
+      throw new ConflictException('User with this email already exists');
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
