@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import type { IRegisterData } from '@otus-social/auth/interfaces/register-data.interface';
+import type { ProfileSearchModel } from '@otus-social/profiles/models/profile-search.model';
 import type { ProfileModel } from '@otus-social/profiles/models/profile.model';
 import { ProfileRepository } from '@otus-social/profiles/repositories/profile.repository';
 
@@ -8,7 +9,7 @@ import { ProfileRepository } from '@otus-social/profiles/repositories/profile.re
 export class ProfilesService {
   constructor(private readonly profileRepository: ProfileRepository) {}
 
-  public async createProfile(
+  public createProfile(
     userId: number,
     profileData: Omit<
       IRegisterData,
@@ -18,9 +19,14 @@ export class ProfilesService {
     return this.profileRepository.create(userId, profileData);
   }
 
-  public async getProfileByUserId(
-    userId: number,
-  ): Promise<ProfileModel | null> {
+  public getProfileByUserId(userId: number): Promise<ProfileModel | null> {
     return this.profileRepository.findByUserId(userId);
+  }
+
+  public searchProfiles(
+    firstName: string,
+    lastName: string,
+  ): Promise<ProfileSearchModel[]> {
+    return this.profileRepository.searchProfiles(firstName, lastName);
   }
 }

@@ -71,6 +71,61 @@
         ]
       }
     },
+    "/profiles/search": {
+      "get": {
+        "operationId": "ProfilesController_searchProfiles",
+        "parameters": [
+          {
+            "name": "first_name",
+            "required": true,
+            "in": "query",
+            "description": "Part of first name to search",
+            "schema": {
+              "example": "Const",
+              "type": "string"
+            }
+          },
+          {
+            "name": "last_name",
+            "required": true,
+            "in": "query",
+            "description": "Part of last name to search",
+            "schema": {
+              "example": "Osi",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful profile search",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProfileSearchResponseDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid data"
+          },
+          "500": {
+            "description": "Server error"
+          },
+          "503": {
+            "description": "Server error"
+          }
+        },
+        "summary": "Search user profiles",
+        "tags": [
+          "Profiles"
+        ]
+      }
+    },
     "/profiles/{userId}": {
       "get": {
         "operationId": "ProfilesController_getProfileByUserId",
@@ -279,6 +334,50 @@
         "required": [
           "access_token",
           "user_id"
+        ]
+      },
+      "ProfileSearchResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "User identifier",
+            "example": "e4d2e6b0-cde2-42c5-aac3-0b8316f21e58"
+          },
+          "first_name": {
+            "type": "string",
+            "description": "First name",
+            "example": "John"
+          },
+          "second_name": {
+            "type": "string",
+            "description": "Last name",
+            "example": "Doe"
+          },
+          "birthdate": {
+            "type": "string",
+            "description": "Birth date",
+            "example": "2017-02-01",
+            "format": "date"
+          },
+          "biography": {
+            "type": "string",
+            "description": "Biography and interests",
+            "example": "Hobbies, interests, etc."
+          },
+          "city": {
+            "type": "string",
+            "description": "City",
+            "example": "Moscow"
+          }
+        },
+        "required": [
+          "id",
+          "first_name",
+          "second_name",
+          "birthdate",
+          "biography",
+          "city"
         ]
       },
       "ProfileResponseDto": {

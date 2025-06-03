@@ -4,6 +4,7 @@ import {
   NotFoundException,
   Param,
   ParseIntPipe,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
@@ -15,13 +16,38 @@ import {
 } from '@nestjs/swagger';
 import { plainToInstance } from 'class-transformer';
 
-import { ProfileResponseDto } from '@otus-social/profiles/dto';
+import {
+  ProfileResponseDto,
+  ProfileSearchResponseDto,
+  SearchProfilesDto,
+} from '@otus-social/profiles/dto';
 import { ProfilesService } from '@otus-social/profiles/profiles.service';
 
 @ApiTags('Profiles')
 @Controller('profiles')
 export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) {}
+
+  @ApiOperation({ summary: 'Search user profiles' })
+  @ApiResponse({
+    status: 200,
+    description: 'Successful profile search',
+    type: [ProfileSearchResponseDto],
+  })
+  @ApiResponse({ status: 400, description: 'Invalid data' })
+  @ApiResponse({ status: 500, description: 'Server error' })
+  @ApiResponse({ status: 503, description: 'Server error' })
+  @Get('search')
+  public async searchProfiles(
+    @Query() searchDto: SearchProfilesDto,
+  ): Promise<ProfileSearchResponseDto[]> {
+    const profiles = await this.profilesService.searchProfiles(
+      searchDto.first_name,
+      searchDto.last_name,
+    );
+
+    return plainToInstance(ProfileSearchResponseDto, profiles);
+  }
 
   @ApiOperation({ summary: 'Get user profile by User ID' })
   @ApiResponse({

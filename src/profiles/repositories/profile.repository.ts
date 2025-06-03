@@ -3,7 +3,9 @@ import { Injectable } from '@nestjs/common';
 import type { IRegisterData } from '@otus-social/auth/interfaces/register-data.interface';
 import { DatabaseService } from '@otus-social/database/database.service';
 import { SQL } from '@otus-social/database/sql';
+import type { IProfileSearch } from '@otus-social/profiles/interfaces/profile-search.interface';
 import type { IProfile } from '@otus-social/profiles/interfaces/profile.interface';
+import { ProfileSearchModel } from '@otus-social/profiles/models/profile-search.model';
 import { ProfileModel } from '@otus-social/profiles/models/profile.model';
 
 @Injectable()
@@ -42,5 +44,16 @@ export class ProfileRepository {
     }
 
     return ProfileModel.fromDatabase(result.rows[0]);
+  }
+
+  public async searchProfiles(
+    firstName: string,
+    lastName: string,
+  ): Promise<ProfileSearchModel[]> {
+    const result = await this.databaseService
+      .getPool()
+      .query<IProfileSearch>(SQL.queries.searchProfiles, [firstName, lastName]);
+
+    return result.rows.map((row) => ProfileSearchModel.fromDatabase(row));
   }
 }
