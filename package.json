@@ -21,6 +21,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "generate:openapi": "cross-env NODE_ENV=production ts-node -r tsconfig-paths/register scripts/generate-openapi.ts",
+    "generate:profiles": "cross-env NODE_ENV=development ts-node -r tsconfig-paths/register scripts/generate-profiles.ts",
     "cold-start": "npm install && cp example.env .env && npm run start:containers && npm run start:dev"
   },
   "dependencies": {
@@ -45,6 +46,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.18.0",
+    "@faker-js/faker": "^9.8.0",
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
