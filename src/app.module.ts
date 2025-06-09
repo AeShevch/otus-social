@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 
 import { AuthModule } from '@otus-social/auth/auth.module';
 import { DatabaseModule } from '@otus-social/database/database.module';
+import { ProfilesModule } from '@otus-social/profiles/profiles.module';
 import { UsersModule } from '@otus-social/users/users.module';
 
 @Module({
@@ -11,6 +12,7 @@ import { UsersModule } from '@otus-social/users/users.module';
     DatabaseModule,
     UsersModule,
     AuthModule,
+    ProfilesModule,
   ],
 })
 export class AppModule {}

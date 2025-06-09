@@ -1,0 +1,12 @@
+{
+  "watch": [
+    "src/**/*.ts",
+    "src/**/*.sql"
+  ],
+  "ext": "ts,sql",
+  "ignore": [
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts"
+  ],
+  "exec": "nest start --watch"
+} 
