@@ -10,3 +10,5 @@ CREATE TABLE IF NOT EXISTS profiles (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 ); 
+
+CREATE INDEX IF NOT EXISTS idx_profiles_first_name_last_name ON profiles (first_name varchar_pattern_ops, last_name varchar_pattern_ops);
